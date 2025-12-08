@@ -1,0 +1,4 @@
+mcp
+Appium-Python-Client
+selenium
+requests
