@@ -44,6 +44,7 @@ Before running the server, ensure you have the following installed and configure
 - **Test Framework Tools:**
   - Scaffold a BDD framework structure.
   - Extract page locators from an active Appium session and generate Java Page Object classes.
+  - **Self-healing:** Suggest new locators for elements based on visible text if the original locator is stale.
 
 ## Usage
 

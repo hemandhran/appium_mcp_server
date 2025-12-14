@@ -10,6 +10,7 @@ from appium import webdriver
 from appium.options.android import UiAutomator2Options
 from appium.options.ios import XCUITestOptions
 import xml.etree.ElementTree as ET
+import difflib
 
 # Initialize the MCP Server
 mcp = FastMCP("UniversalAppiumHelper")
@@ -416,6 +417,72 @@ def extract_page_locators(page_name: str, save_path: str):
         return f"Page Object class saved to: {full_path}"
     except Exception as e:
         return f"Error extracting locators: {str(e)}"
+
+
+@mcp.tool()
+def heal_locator(target_text: str, expected_type: str = None):
+    """
+    Finds a reliable locator for an element based on its visible text.
+
+    This is useful for self-healing when a locator has changed. It scans the current
+    screen for an element with matching text and returns its current, valid locator.
+
+    Args:
+        target_text (str): The visible text (or content-desc) of the element to find.
+        expected_type (str, optional): The expected class name of the element (e.g., "android.widget.Button").
+
+    Returns:
+        str: A string with the best locator found (e.g., "id: new_id"), or an error message.
+    """
+    global driver
+    if not driver:
+        return "Error: No active Appium driver session found. Use 'launch_app_and_inspector' first."
+
+    try:
+        source = driver.page_source
+        root = ET.fromstring(source)
+        candidates = []
+
+        for element in root.iter():
+            # Get all relevant text attributes
+            text = element.attrib.get('text', '')
+            content_desc = element.attrib.get('content-desc', '')
+            res_id = element.attrib.get('resource-id', '')
+            name = element.attrib.get('name', '') # For iOS
+            label = element.attrib.get('label', '') # For iOS
+            elem_type = element.tag
+
+            # Check if the element text is a close match
+            current_text = text or content_desc or name or label
+            if not current_text:
+                continue
+
+            # Check type if specified
+            if expected_type and elem_type != expected_type:
+                continue
+
+            # Score based on similarity
+            similarity = difflib.SequenceMatcher(None, target_text, current_text).ratio()
+            if similarity > 0.8: # High confidence threshold
+                # Prefer ID or accessibility ID if available
+                if res_id:
+                    candidates.append((similarity, f"id: {res_id}"))
+                elif name:
+                     candidates.append((similarity, f"accessibilityId: {name}"))
+                else: # Fallback to XPath
+                    # Simple XPath based on text
+                    xpath = f"//[{elem_type} and @text='{current_text}']"
+                    candidates.append((similarity, f"xpath: {xpath}"))
+
+        if not candidates:
+            return "Could not find a suitable element to heal the locator."
+
+        # Return the best candidate
+        candidates.sort(key=lambda x: x[0], reverse=True)
+        return f"Found best match: {candidates[0][1]}"
+
+    except Exception as e:
+        return f"Error during locator healing: {str(e)}"
 
 
 if __name__ == "__main__":
