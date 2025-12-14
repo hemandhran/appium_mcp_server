@@ -357,6 +357,8 @@ def launch_app_and_inspector(platform_name: str, app_filename: str, device_name:
         if platform_name.lower() == 'android':
             options = UiAutomator2Options()
             options.automation_name = 'UiAutomator2'
+            options.app_wait_activity = '*'
+            options.app_wait_duration = 30000
         elif platform_name.lower() == 'ios':
             if not is_mac(): return "iOS automation requires macOS."
             options = XCUITestOptions()
