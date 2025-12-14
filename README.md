@@ -14,7 +14,7 @@ Before running the server, ensure you have the following installed and configure
   ```
 - **Android SDK:**
   - Set the `ANDROID_HOME` or `ANDROID_SDK_ROOT` environment variable.
-  - Ensure the Android emulator is installed and configured.
+  - Ensure the Android emulator and ADB are installed and configured.
 - **For iOS (macOS only):**
   - **Xcode:** Install from the Mac App Store.
   - **Xcode Command Line Tools:**
@@ -30,12 +30,20 @@ Before running the server, ensure you have the following installed and configure
 
 ## Features
 
-- Start and stop the Appium server.
-- List available Android AVDs and iOS Simulators.
-- Start Android emulators and iOS simulators.
-- Build and install iOS apps.
-- Scaffold a BDD framework structure.
-- Extract page locators from an active Appium session.
+- **Appium Server Management:**
+  - Start and stop the Appium server.
+- **Device Management:**
+  - List available Android AVDs (emulators).
+  - List connected physical Android devices.
+  - List available iOS Simulators.
+  - List connected physical iOS devices.
+  - Start Android emulators and iOS simulators.
+- **Application Management:**
+  - Build and install iOS apps from Xcode projects.
+  - Launch and install apps on both Android and iOS.
+- **Test Framework Tools:**
+  - Scaffold a BDD framework structure.
+  - Extract page locators from an active Appium session and generate Java Page Object classes.
 
 ## Usage
 
