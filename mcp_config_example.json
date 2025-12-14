@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "appium-mcp": {
+      "command": "python",
+      "args": [
+        "/absolute/path/to/Appium_MCP/appium_mcp_server.py"
+      ],
+      "env": {
+        "ANDROID_HOME": "/Users/yourusername/Library/Android/sdk"
+      }
+    }
+  }
+}

@@ -50,3 +50,36 @@ Before running the server, ensure you have the following installed and configure
     ```
 
 The server will then be running and ready to accept commands.
+
+## Integrating with an MCP Client (e.g., in VS Code)
+
+To use this server as an AI agent in your editor, you need to configure your MCP client to launch it. Here’s an example of how to do that.
+
+1.  **Find your MCP client's configuration file.** This is often a `settings.json` or `mcp.json` file located in your editor's user settings directory.
+
+2.  **Add a new server configuration.** You will need to provide the command to run the Python script. See the `mcp_config_example.json` file in this repository for a template.
+
+    **Example Configuration:**
+    ```json
+    {
+      "mcpServers": {
+        "appium-mcp": {
+          "command": "python",
+          "args": [
+            "/absolute/path/to/Appium_MCP/appium_mcp_server.py"
+          ],
+          "env": {
+            "ANDROID_HOME": "/Users/yourusername/Library/Android/sdk"
+          }
+        }
+      }
+    }
+    ```
+
+    **Important:**
+    - Replace `/absolute/path/to/Appium_MCP/appium_mcp_server.py` with the actual absolute path to the script on your machine.
+    - Ensure the `ANDROID_HOME` environment variable is set correctly for your system.
+
+3.  **Restart your editor** to ensure the new agent is loaded.
+
+You should now be able to interact with the Appium MCP server through your AI assistant.
