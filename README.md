@@ -38,6 +38,7 @@ Before running the server, ensure you have the following installed and configure
   - List available iOS Simulators.
   - List connected physical iOS devices.
   - Start Android emulators and iOS simulators.
+  - Create new Android AVDs.
 - **Application Management:**
   - Build and install iOS apps from Xcode projects.
   - Launch and install apps on both Android and iOS.
@@ -45,6 +46,8 @@ Before running the server, ensure you have the following installed and configure
   - Scaffold a BDD framework structure.
   - Extract page locators from an active Appium session and generate Java Page Object classes.
   - **Self-healing:** Suggest new locators for elements based on visible text if the original locator is stale.
+- **Parallel Execution:**
+  - Run tests in parallel across multiple Android or iOS devices.
 
 ## Usage
 
